@@ -11,7 +11,7 @@ using System.Windows.Forms;
 namespace Lab_0_Var29
 {
     public partial class Form1 : Form
-    {
+    {jjj
         public Form1()
         {
             InitializeComponent();
