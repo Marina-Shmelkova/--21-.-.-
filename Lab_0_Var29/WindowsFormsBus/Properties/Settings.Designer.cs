@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Lab_Variant29.Properties
+namespace WindowsFormsBus.Properties
 {
 
 

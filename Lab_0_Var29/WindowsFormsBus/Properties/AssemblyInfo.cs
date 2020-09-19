@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // Общие сведения об этой сборке предоставляются следующим набором
 // набора атрибутов. Измените значения этих атрибутов для изменения сведений,
 // связанных со сборкой.
-[assembly: AssemblyTitle("Lab_Variant29")]
+[assembly: AssemblyTitle("WindowsFormsBus")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Lab_Variant29")]
+[assembly: AssemblyProduct("WindowsFormsBus")]
 [assembly: AssemblyCopyright("Copyright ©  2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // Следующий GUID служит для идентификации библиотеки типов, если этот проект будет видимым для COM
-[assembly: Guid("8026e7d5-21dc-4e4b-9715-829115ba7839")]
+[assembly: Guid("81792324-3f14-4b05-ad07-71bd8d9f5513")]
 
 // Сведения о версии сборки состоят из указанных ниже четырех значений:
 //
