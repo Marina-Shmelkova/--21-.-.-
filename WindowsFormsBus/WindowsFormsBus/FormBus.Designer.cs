@@ -112,7 +112,7 @@
             this.Controls.Add(this.buttonCreate);
             this.Controls.Add(this.pictureBoxBus);
             this.Name = "FormBus";
-            this.Text = "Form1";
+            this.Text = "FormBus";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxBus)).EndInit();
             this.ResumeLayout(false);
 
