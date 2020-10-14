@@ -29,11 +29,12 @@
         private void InitializeComponent()
         {
             this.pictureBoxBus = new System.Windows.Forms.PictureBox();
-            this.buttonCreate = new System.Windows.Forms.Button();
+            this.buttonCreateBus = new System.Windows.Forms.Button();
             this.buttonUp = new System.Windows.Forms.Button();
             this.buttonRight = new System.Windows.Forms.Button();
             this.buttonDown = new System.Windows.Forms.Button();
             this.buttonLeft = new System.Windows.Forms.Button();
+            this.buttonCreateTrolleybus = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxBus)).BeginInit();
             this.SuspendLayout();
             // 
@@ -46,15 +47,15 @@
             this.pictureBoxBus.TabIndex = 0;
             this.pictureBoxBus.TabStop = false;
             // 
-            // buttonCreate
+            // buttonCreateBus
             // 
-            this.buttonCreate.Location = new System.Drawing.Point(13, 13);
-            this.buttonCreate.Name = "buttonCreate";
-            this.buttonCreate.Size = new System.Drawing.Size(75, 23);
-            this.buttonCreate.TabIndex = 1;
-            this.buttonCreate.Text = "Создать";
-            this.buttonCreate.UseVisualStyleBackColor = true;
-            this.buttonCreate.Click += new System.EventHandler(this.buttonCreate_Click);
+            this.buttonCreateBus.Location = new System.Drawing.Point(13, 13);
+            this.buttonCreateBus.Name = "buttonCreateBus";
+            this.buttonCreateBus.Size = new System.Drawing.Size(150, 23);
+            this.buttonCreateBus.TabIndex = 1;
+            this.buttonCreateBus.Text = "Создать автобус";
+            this.buttonCreateBus.UseVisualStyleBackColor = true;
+            this.buttonCreateBus.Click += new System.EventHandler(this.buttonCreateBus_Click);
             // 
             // buttonUp
             // 
@@ -100,16 +101,27 @@
             this.buttonLeft.UseVisualStyleBackColor = true;
             this.buttonLeft.Click += new System.EventHandler(this.buttonMove_Click);
             // 
+            // buttonCreateTrolleybus
+            // 
+            this.buttonCreateTrolleybus.Location = new System.Drawing.Point(203, 13);
+            this.buttonCreateTrolleybus.Name = "buttonCreateTrolleybus";
+            this.buttonCreateTrolleybus.Size = new System.Drawing.Size(150, 23);
+            this.buttonCreateTrolleybus.TabIndex = 6;
+            this.buttonCreateTrolleybus.Text = "Создать троллейбус";
+            this.buttonCreateTrolleybus.UseVisualStyleBackColor = true;
+            this.buttonCreateTrolleybus.Click += new System.EventHandler(this.buttonCreateTrolleybus_Click);
+            // 
             // FormBus
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.buttonCreateTrolleybus);
             this.Controls.Add(this.buttonLeft);
             this.Controls.Add(this.buttonDown);
             this.Controls.Add(this.buttonRight);
             this.Controls.Add(this.buttonUp);
-            this.Controls.Add(this.buttonCreate);
+            this.Controls.Add(this.buttonCreateBus);
             this.Controls.Add(this.pictureBoxBus);
             this.Name = "FormBus";
             this.Text = "FormBus";
@@ -121,11 +133,12 @@
         #endregion
 
         private System.Windows.Forms.PictureBox pictureBoxBus;
-        private System.Windows.Forms.Button buttonCreate;
+        private System.Windows.Forms.Button buttonCreateBus;
         private System.Windows.Forms.Button buttonUp;
         private System.Windows.Forms.Button buttonRight;
         private System.Windows.Forms.Button buttonDown;
         private System.Windows.Forms.Button buttonLeft;
+        private System.Windows.Forms.Button buttonCreateTrolleybus;
     }
 }
 
