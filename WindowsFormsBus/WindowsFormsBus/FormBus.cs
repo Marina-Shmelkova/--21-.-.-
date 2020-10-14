@@ -18,14 +18,18 @@ namespace WindowsFormsBus
             InitializeComponent();
         }
 
-       
+        public void SetBus(ITransport bus)
+        {
+            this.bus = bus;
+            Draw();
+        }
         /// Метод отрисовки троллейбуса
         /// </summary>
         private void Draw()
         {
             Bitmap bmp = new Bitmap(pictureBoxBus.Width, pictureBoxBus.Height);
             Graphics gr = Graphics.FromImage(bmp);
-            bus.DrawTransport(gr);
+            bus?.DrawTransport(gr);
             pictureBoxBus.Image = bmp;
         }
         /// Обработка нажатия кнопки "Создать автобус"
@@ -51,7 +55,7 @@ namespace WindowsFormsBus
            pictureBoxBus.Height);
             Draw();
         }
-
+        
         /// <summary>
         /// Обработка нажатия кнопок управления
         /// </summary>
@@ -64,16 +68,16 @@ namespace WindowsFormsBus
             switch (name)
             {
                 case "buttonUp":
-                    bus.MoveTransport(Direction.Up);
+                    bus?.MoveTransport(Direction.Up);
                     break;
                 case "buttonDown":
-                    bus.MoveTransport(Direction.Down);
+                    bus?.MoveTransport(Direction.Down);
                     break;
                 case "buttonLeft":
-                    bus.MoveTransport(Direction.Left);
+                    bus?.MoveTransport(Direction.Left);
                     break;
                 case "buttonRight":
-                    bus.MoveTransport(Direction.Right);
+                    bus?.MoveTransport(Direction.Right);
                     break;
             }
             Draw();
