@@ -12,7 +12,7 @@ namespace WindowsFormsBus
 {
     public partial class FormBus : Form
     {
-        private Trolleybus bus;
+        private ITransport bus;
         public FormBus()
         {
             InitializeComponent();
@@ -28,16 +28,30 @@ namespace WindowsFormsBus
             bus.DrawTransport(gr);
             pictureBoxBus.Image = bmp;
         }
-        /// Обработка нажатия кнопки "Создать"
-        private void buttonCreate_Click(object sender, EventArgs e)
+        /// Обработка нажатия кнопки "Создать автобус"
+        private void buttonCreateBus_Click(object sender, EventArgs e)
         {
             Random rnd = new Random();
-            bus = new Trolleybus(rnd.Next(100, 300), rnd.Next(1000, 2000), Color.Blue,
-           Color.DarkGoldenrod, true, true);
+            bus = new Bus(rnd.Next(100, 300), rnd.Next(1000, 2000), Color.Blue);
             bus.SetPosition(rnd.Next(50, 100), rnd.Next(50, 100), pictureBoxBus.Width,
            pictureBoxBus.Height);
             Draw();
         }
+        /// <summary>
+        /// Обработка нажатия кнопки "Создать троллейбус"
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void buttonCreateTrolleybus_Click(object sender, EventArgs e)
+        {
+            Random rnd = new Random();
+            bus = new Trolleybus(rnd.Next(100, 300), rnd.Next(1000, 2000), Color.Blue,
+           Color.Yellow, true, true);
+            bus.SetPosition(rnd.Next(50, 100), rnd.Next(50, 100), pictureBoxBus.Width,
+           pictureBoxBus.Height);
+            Draw();
+        }
+
         /// <summary>
         /// Обработка нажатия кнопок управления
         /// </summary>
