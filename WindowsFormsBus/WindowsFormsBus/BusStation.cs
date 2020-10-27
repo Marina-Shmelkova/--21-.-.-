@@ -10,9 +10,14 @@ namespace WindowsFormsBus
     public class BusStation<T> where T : class, ITransport
     {
         /// <summary>
-        /// Массив объектов, которые храним
+        /// Список объектов, которые храним
         /// </summary>
-        private readonly T[] _places;
+        private readonly List<T> _places;
+        /// <summary>
+        /// Максимальное количество мест на парковке
+        /// </summary>
+        private readonly int _maxCount;
+
         /// <summary>
         /// Ширина окна отрисовки
         /// </summary>
@@ -39,47 +44,45 @@ namespace WindowsFormsBus
         {
             int width = picWidth / _placeSizeWidth;
             int height = picHeight / _placeSizeHeight;
-            _places = new T[width * height];
+            _places = new List<T>();
             pictureWidth = picWidth;
             pictureHeight = picHeight;
+            _maxCount = width * height;
         }
-        /// <summary>
+        
         /// Перегрузка оператора сложения
-        /// Логика действия: на парковку добавляется автомобиль
+        /// Логика действия: на парковку добавляется автобус
         /// </summary>
-        /// <param name="p">Парковка</param>
-        /// <param name="car">Добавляемый автомобиль</param>
+        /// <param name="p">Автовокзал</param>
+        /// <param name="car">Добавляемый автобус</param>
         /// <returns></returns>
-        public static bool operator +(BusStation<T> p, T bus)
+        public static bool operator +(BusStation<T> b, T car)
         {
-            for (int i = 0; i < p._places.Length; i++)
+            if (b._places.Count >= b._maxCount)
             {
-                if (p._places[i] == null)
-                {
-                    bus.SetPosition(10 + p._placeSizeWidth * (int)(i / (int)(p.pictureHeight / p._placeSizeHeight)), 25 + p._placeSizeHeight * (int)(i % (int)(p.pictureHeight / p._placeSizeHeight)), p.pictureWidth, p.pictureHeight);
-                    p._places[i] = bus;
-                    return true;
-                }
+                return false;
             }
-            return false;
+            b._places.Add(car);
+            return true;
         }
+
         /// <summary>
         /// Перегрузка оператора вычитания
-        /// Логика действия: с парковки забираем автомобиль
+        /// Логика действия: с парковки забираем автобус
         /// </summary>
-        /// <param name="p">Парковка</param>
-        /// <param name="index">Индекс места, с которого пытаемся извлечь объект</param>
-        /// <returns></returns>
-        public static T operator -(BusStation<T> p, int index)
+        /// <param name="p">Автовокзал</param>
+        /// <param name="index">Индекс места, с которого пытаемся извлечь объект
+ public static T operator -(BusStation<T> b, int index)
         {
-            if ((index < p._places.Length) && (index >= 0))
+            if (index < -1 || index > b._places.Count)
             {
-                T bus = p._places[index];
-                p._places[index] = null;
-                return bus;
+                return null;
             }
-            return null;
+            T bus = b._places[index];
+            b._places.RemoveAt(index);
+            return bus;
         }
+
         /// <summary>
         /// Метод отрисовки парковки
         /// </summary>
@@ -87,9 +90,11 @@ namespace WindowsFormsBus
         public void Draw(Graphics g)
         {
             DrawMarking(g);
-            for (int i = 0; i < _places.Length; i++)
+            for (int i = 0; i < _places.Count; ++i)
             {
-                _places[i]?.DrawTransport(g);
+                _places[i].SetPosition(5 + i / (pictureHeight / _placeSizeHeight) * _placeSizeWidth + 5, i % (pictureHeight / _placeSizeHeight) *
+               _placeSizeHeight + 27, pictureWidth, pictureHeight);
+                _places[i].DrawTransport(g);
             }
         }
         private void DrawMarking(Graphics g)
