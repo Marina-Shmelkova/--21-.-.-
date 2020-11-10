@@ -15,6 +15,7 @@ namespace WindowsFormsBus
         /// Признак наличия дверей
         /// </summary>
         public bool Doors { private set; get; }
+        public bool Strip{ private set; get; }
         /// <summary>
         /// Конструктор
         /// </summary>
@@ -25,12 +26,13 @@ namespace WindowsFormsBus
         /// <param name="rodPantograph">Признак наличия переднего спойлера</param>
         /// <param name="doors">Признак наличия дверей</param>
         public Trolleybus(int maxSpeed, float weight, Color mainColor, Color dopColor,
-bool rodPantograph, bool doors) :
+bool rodPantograph, bool doors, bool strip) :
  base(maxSpeed, weight, mainColor, 300, 100)
         {
             DopColor = dopColor;
             RodPantograph = rodPantograph;
             Doors = doors;
+            Strip = strip;
         }
 
 
@@ -42,7 +44,13 @@ bool rodPantograph, bool doors) :
             Pen pen = new Pen(Color.Black);
             Pen penFramework = new Pen(Color.White);
             base.DrawTransport(g);
-
+            if (Strip)
+            {
+                //Белая полоса
+                Brush brWhite = new SolidBrush(Color.White);
+                g.FillRectangle(brWhite, _startPosX, _startPosY + 20, 200, 20);
+            }
+            
             //Отрисовка рога
             if (RodPantograph)
             {
@@ -78,9 +86,16 @@ bool rodPantograph, bool doors) :
                 g.DrawLine(penFramework, _startPosX + 165, _startPosY + 10, _startPosX + 165, _startPosY + 50);//правая
                 g.DrawLine(penFramework, _startPosX + 150, _startPosY + 30, _startPosX + 180, _startPosY + 30);
             }
-
             
+            /// <summary>
+            /// Смена дополнительного цвета
+            /// </summary>
+            /// <param name="color"></param>          
 
+        }
+        public void SetDopColor(Color color)
+        {
+            DopColor = color;
         }
     }
 }

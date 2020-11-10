@@ -50,7 +50,7 @@ namespace WindowsFormsBus
         {
             Random rnd = new Random();
             bus = new Trolleybus(rnd.Next(100, 300), rnd.Next(1000, 2000), Color.Blue,
-           Color.Yellow, true, true);
+           Color.Yellow, true, true, true);
             bus.SetPosition(rnd.Next(50, 100), rnd.Next(50, 100), pictureBoxBus.Width,
            pictureBoxBus.Height);
             Draw();
