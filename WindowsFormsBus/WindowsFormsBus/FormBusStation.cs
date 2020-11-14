@@ -96,67 +96,43 @@ pictureBoxBusStation.Height);
                 }
             }
         }
-            /// Обработка нажатия кнопки "Припарковать автомобиль"
-            /// </summary>
-            /// <param name="sender"></param>
-            /// <param name="e"></param>
-            private void buttonSetBus_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Обработка нажатия кнопки "Добавить автомобиль"
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void buttonSetBus_Click(object sender, EventArgs e)
+        {
+            var formBusConfig = new FormBusConfig();
+            formBusConfig.AddEvent(AddBus);
+            formBusConfig.Show();
+        }
+        /// <summary>
+        /// Метод добавления машины
+        /// </summary>
+        
+        private void AddBus(Vehicle bus)
+        {
+            if (bus != null && listBoxBusStation.SelectedIndex > -1)
             {
-                if (listBoxBusStation.SelectedIndex > -1)
+                if ((stationCollection[listBoxBusStation.SelectedItem.ToString()]) + bus)
                 {
-                    ColorDialog dialog = new ColorDialog();
-                    if (dialog.ShowDialog() == DialogResult.OK)
-                    {
-                        var bus = new Bus(100, 1000, dialog.Color);
-                        if (stationCollection[listBoxBusStation.SelectedItem.ToString()] +
-                       bus)
-                        {
-                            Draw();
-                        }
-                        else
-                        {
-                            MessageBox.Show("Парковка переполнена");
-                        }
-                    }
+                    Draw();
+                }
+                else
+                {
+                    MessageBox.Show("Автобус не удалось поставить");
                 }
             }
-            /// <summary>
-            /// Обработка нажатия кнопки "Припарковать гоночный автомобиль"
-            /// </summary>
-            /// <param name="sender"></param>
-            /// <param name="e"></param>
-            private void buttonSetTrolleybus_Click(object sender, EventArgs e)
-            {
-                if (listBoxBusStation.SelectedIndex > -1)
-                {
-                    ColorDialog dialog = new ColorDialog();
-                    if (dialog.ShowDialog() == DialogResult.OK)
-                    {
-                        ColorDialog dialogDop = new ColorDialog();
-                        if (dialogDop.ShowDialog() == DialogResult.OK)
-                        {
-                            var bus = new Trolleybus(100, 1000, dialog.Color,
-                           dialogDop.Color, true, true);
-                            if (stationCollection[listBoxBusStation.SelectedItem.ToString()]
-                           + bus)
-                            {
-                                Draw();
-                            }
-                            else
-                            {
-                                MessageBox.Show("Парковка переполнена");
-                            }
-                        }
-                    }
-                }
-            }
+        }
 
-            /// <summary>
-            /// Обработка нажатия кнопки "Забрать"
-            /// </summary>
-            /// <param name="sender"></param>
-            /// <param name="e"></param>
-            private void buttonTakeBus_Click(object sender, EventArgs e)
+
+        /// <summary>
+        /// Обработка нажатия кнопки "Забрать"
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void buttonTakeBus_Click(object sender, EventArgs e)
             {
                 if (listBoxBusStation.SelectedIndex > -1 && maskedTextBoxBus.Text != "")
                 {

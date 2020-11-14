@@ -29,17 +29,16 @@
         private void InitializeComponent()
         {
             this.pictureBoxBusStation = new System.Windows.Forms.PictureBox();
-            this.buttonBus = new System.Windows.Forms.Button();
-            this.buttonTrolleybus = new System.Windows.Forms.Button();
             this.groupBoxStation = new System.Windows.Forms.GroupBox();
             this.OutPutBus = new System.Windows.Forms.Button();
             this.maskedTextBoxBus = new System.Windows.Forms.MaskedTextBox();
             this.labelBus = new System.Windows.Forms.Label();
             this.labelStation = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
+            this.buttonAddBusStation = new System.Windows.Forms.Button();
             this.listBoxBusStation = new System.Windows.Forms.ListBox();
             this.buttonDeleteBusStation = new System.Windows.Forms.Button();
             this.textBoxNewLevelName = new System.Windows.Forms.TextBox();
+            this.buttonAddBus = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxBusStation)).BeginInit();
             this.groupBoxStation.SuspendLayout();
             this.SuspendLayout();
@@ -52,26 +51,6 @@
             this.pictureBoxBusStation.Size = new System.Drawing.Size(630, 450);
             this.pictureBoxBusStation.TabIndex = 0;
             this.pictureBoxBusStation.TabStop = false;
-            // 
-            // buttonBus
-            // 
-            this.buttonBus.Location = new System.Drawing.Point(663, 226);
-            this.buttonBus.Name = "buttonBus";
-            this.buttonBus.Size = new System.Drawing.Size(125, 42);
-            this.buttonBus.TabIndex = 1;
-            this.buttonBus.Text = "Припарковать автобус";
-            this.buttonBus.UseVisualStyleBackColor = true;
-            this.buttonBus.Click += new System.EventHandler(this.buttonSetBus_Click);
-            // 
-            // buttonTrolleybus
-            // 
-            this.buttonTrolleybus.Location = new System.Drawing.Point(666, 274);
-            this.buttonTrolleybus.Name = "buttonTrolleybus";
-            this.buttonTrolleybus.Size = new System.Drawing.Size(122, 40);
-            this.buttonTrolleybus.TabIndex = 2;
-            this.buttonTrolleybus.Text = "Припарковать троллейбус";
-            this.buttonTrolleybus.UseVisualStyleBackColor = true;
-            this.buttonTrolleybus.Click += new System.EventHandler(this.buttonSetTrolleybus_Click);
             // 
             // groupBoxStation
             // 
@@ -120,15 +99,15 @@
             this.labelStation.TabIndex = 4;
             this.labelStation.Text = "Парковки";
             // 
-            // button1
+            // buttonAddBusStation
             // 
-            this.button1.Location = new System.Drawing.Point(666, 51);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(122, 23);
-            this.button1.TabIndex = 6;
-            this.button1.Text = "Добавить парковку";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.buttonAddBusStation_Click);
+            this.buttonAddBusStation.Location = new System.Drawing.Point(666, 51);
+            this.buttonAddBusStation.Name = "buttonAddBusStation";
+            this.buttonAddBusStation.Size = new System.Drawing.Size(122, 23);
+            this.buttonAddBusStation.TabIndex = 6;
+            this.buttonAddBusStation.Text = "Добавить парковку";
+            this.buttonAddBusStation.UseVisualStyleBackColor = true;
+            this.buttonAddBusStation.Click += new System.EventHandler(this.buttonAddBusStation_Click);
             // 
             // listBoxBusStation
             // 
@@ -156,19 +135,28 @@
             this.textBoxNewLevelName.Size = new System.Drawing.Size(125, 20);
             this.textBoxNewLevelName.TabIndex = 9;
             // 
+            // buttonAddBus
+            // 
+            this.buttonAddBus.Location = new System.Drawing.Point(666, 229);
+            this.buttonAddBus.Name = "buttonAddBus";
+            this.buttonAddBus.Size = new System.Drawing.Size(122, 26);
+            this.buttonAddBus.TabIndex = 10;
+            this.buttonAddBus.Text = "Добавить ТС";
+            this.buttonAddBus.UseVisualStyleBackColor = true;
+            this.buttonAddBus.Click += new System.EventHandler(this.buttonSetBus_Click);
+            // 
             // FormBusStation
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.buttonAddBus);
             this.Controls.Add(this.textBoxNewLevelName);
             this.Controls.Add(this.buttonDeleteBusStation);
             this.Controls.Add(this.listBoxBusStation);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.buttonAddBusStation);
             this.Controls.Add(this.labelStation);
             this.Controls.Add(this.groupBoxStation);
-            this.Controls.Add(this.buttonTrolleybus);
-            this.Controls.Add(this.buttonBus);
             this.Controls.Add(this.pictureBoxBusStation);
             this.Name = "FormBusStation";
             this.Text = "Автовокзал";
@@ -183,16 +171,15 @@
         #endregion
 
         private System.Windows.Forms.PictureBox pictureBoxBusStation;
-        private System.Windows.Forms.Button buttonBus;
-        private System.Windows.Forms.Button buttonTrolleybus;
         private System.Windows.Forms.GroupBox groupBoxStation;
         private System.Windows.Forms.Button OutPutBus;
         private System.Windows.Forms.MaskedTextBox maskedTextBoxBus;
         private System.Windows.Forms.Label labelBus;
         private System.Windows.Forms.Label labelStation;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button buttonAddBusStation;
         private System.Windows.Forms.ListBox listBoxBusStation;
         private System.Windows.Forms.Button buttonDeleteBusStation;
         private System.Windows.Forms.TextBox textBoxNewLevelName;
+        private System.Windows.Forms.Button buttonAddBus;
     }
 }

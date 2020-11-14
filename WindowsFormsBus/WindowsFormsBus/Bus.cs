@@ -100,20 +100,13 @@ namespace WindowsFormsBus
             g.FillEllipse(brBlack, _startPosX + 50, _startPosY + 48, 22, 22);
             g.FillEllipse(brBlack, _startPosX + 130, _startPosY + 48, 22, 22);
 
-            //Белая полоса
-            Brush brWhite = new SolidBrush(Color.White);
-            g.FillRectangle(brWhite, _startPosX, _startPosY + 20, 200, 20);
             //окно
             Brush br_yellow = new SolidBrush(Color.Yellow);
             //лобовое
             g.FillRectangle(br_yellow, _startPosX + 190, _startPosY + 10, 10, 30);
             g.DrawRectangle(penFramework, _startPosX + 190, _startPosY + 10, 10, 30);//лобовое
 
-            //дверь
-            g.FillRectangle(br_yellow, _startPosX + 80, _startPosY + 10, 30, 40);
-            g.DrawRectangle(penFramework, _startPosX + 80, _startPosY + 10, 30, 40);
-            g.DrawLine(penFramework, _startPosX + 95, _startPosY + 10, _startPosX + 95, _startPosY + 50);//середина
-            g.DrawLine(penFramework, _startPosX + 80, _startPosY + 30, _startPosX + 110, _startPosY + 30);
+            
 
             g.DrawRectangle(pen, _startPosX, _startPosY, 200, 50);
         }
