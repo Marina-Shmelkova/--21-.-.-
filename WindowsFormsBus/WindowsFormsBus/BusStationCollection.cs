@@ -103,31 +103,26 @@ namespace WindowsFormsBus
             {
                 File.Delete(filename);
             }
-            using (FileStream fs = new FileStream(filename, FileMode.Create))
+            using (StreamWriter sw = new StreamWriter(filename))
             {
-                WriteToFile($"BusStationCollection{Environment.NewLine}", fs);
+                sw.WriteLine($"BusStationCollection");
                 foreach (var level in stationStages)
                 {
-                    //Начинаем парковку
-                    WriteToFile($"BusStation{separator}{level.Key}{Environment.NewLine}",
-                    fs);
+                    sw.WriteLine($"BusStation{separator}{level.Key}");
                     ITransport bus = null;
                     for (int i = 0; (bus = level.Value.GetNext(i)) != null; i++)
                     {
                         if (bus != null)
                         {
-                            //если место не пустое
-                            //Записываем тип автобуса
                             if (bus.GetType().Name == "Bus")
                             {
-                                WriteToFile($"Bus{separator}", fs);
+                                sw.Write($"Bus{separator}");
                             }
                             if (bus.GetType().Name == "Trolleybus")
                             {
-                                WriteToFile($"Trolleybus{separator}", fs);
+                                sw.Write($"Trolleybus{separator}");
                             }
-                            //Записываемые параметры
-                            WriteToFile(bus + Environment.NewLine, fs);
+                            sw.WriteLine(bus);
                         }
                     }
                 }
@@ -135,7 +130,7 @@ namespace WindowsFormsBus
             return true;
         }
         /// <summary>
-        /// Загрузка нформации по автобусам на парковках из файла
+        /// Загрузка информации по автобусам на парковках из файла
         /// </summary>
         /// <param name="filename"></param>
         /// <returns></returns>
@@ -145,59 +140,48 @@ namespace WindowsFormsBus
             {
                 return false;
             }
-            string bufferTextFromFile = "";
-            using (FileStream fs = new FileStream(filename, FileMode.Open))
+            using (StreamReader sr = new StreamReader(filename))
             {
-                byte[] b = new byte[fs.Length];
-                UTF8Encoding temp = new UTF8Encoding(true);
-                while (fs.Read(b, 0, b.Length) > 0)
+                string line = sr.ReadLine();
+                string key = string.Empty;
+                Vehicle bus = null;
+                if (line.Contains("BusStationCollection"))
                 {
-                    bufferTextFromFile += temp.GetString(b);
+                    stationStages.Clear();
+                    line = sr.ReadLine();
+                    while (line != null)
+                    {
+                        if (line.Contains("BusStation"))
+                        {
+                            key = line.Split(separator)[1];
+                            stationStages.Add(key, new BusStation<Vehicle>(pictureWidth, pictureHeight));
+                            line = sr.ReadLine();
+                            continue;
+                        }
+                        if (string.IsNullOrEmpty(line))
+                        {
+                            line = sr.ReadLine();
+                            continue;
+                        }
+                        if (line.Split(separator)[0] == "Bus")
+                        {
+                            bus = new Bus(line.Split(separator)[1]);
+                        }
+                        else if (line.Split(separator)[0] == "Trolleybus")
+                        {
+                            bus = new Trolleybus(line.Split(separator)[1]);
+                        }
+                        var result = stationStages[key] + bus;
+                        if (!result)
+                        {
+                            return false;
+                        }
+                        line = sr.ReadLine();
+                    }
+                    return true;
                 }
-            }
-            bufferTextFromFile = bufferTextFromFile.Replace("\r", "");
-            var strs = bufferTextFromFile.Split('\n');
-            if (strs[0].Contains("BusStationCollection"))
-            {
-                //очищаем записи
-                stationStages.Clear();
-            }
-            else
-            {
-                //если нет такой записи, то это не те данные
                 return false;
             }
-            Vehicle bus = null;
-            string key = string.Empty;
-            for (int i = 1; i < strs.Length; ++i)
-            {
-                //идем по считанным записям
-                if (strs[i].Contains("BusStation"))
-                {//начинаем новую парковку
-                    key = strs[i].Split(separator)[1];
-                    stationStages.Add(key, new BusStation<Vehicle>(pictureWidth,
-                    pictureHeight));
-                    continue;
-                }
-                if (string.IsNullOrEmpty(strs[i]))
-                {
-                    continue;
-                }
-                if (strs[i].Split(separator)[0] == "Bus")
-                {
-                    bus = new Bus(strs[i].Split(separator)[1]);
-                }
-                else if (strs[i].Split(separator)[0] == "Trolleybus")
-                {
-                    bus = new Trolleybus(strs[i].Split(separator)[1]);
-                }
-                var result = stationStages[key] + bus;
-                if (!result)
-                {
-                    return false;
-                }
-            }
-            return true;
         }
     }
 }
