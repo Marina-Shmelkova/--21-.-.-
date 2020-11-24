@@ -109,7 +109,18 @@ namespace WindowsFormsBus
                 g.DrawLine(pen, i * _placeSizeWidth + 3, 3, i * _placeSizeWidth + 3, (pictureHeight / _placeSizeHeight) * _placeSizeHeight + 3);
             }
         }
-
-
+        /// <summary>
+         /// Функция получения элементы из списка
+         /// </summary>
+         /// <param name="index"></param>
+         /// <returns></returns>
+        public T GetNext(int index)
+        {
+            if (index < 0 || index >= _places.Count)
+            {
+                return null;
+            }
+            return _places[index];
+        }
     }
 }

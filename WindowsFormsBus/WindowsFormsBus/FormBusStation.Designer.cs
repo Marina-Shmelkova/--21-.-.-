@@ -39,16 +39,23 @@
             this.buttonDeleteBusStation = new System.Windows.Forms.Button();
             this.textBoxNewLevelName = new System.Windows.Forms.TextBox();
             this.buttonAddBus = new System.Windows.Forms.Button();
+            this.menuStripBus = new System.Windows.Forms.MenuStrip();
+            this.файлToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.сохранитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.загрузитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveFileDialogBus = new System.Windows.Forms.SaveFileDialog();
+            this.openFileDialogBus = new System.Windows.Forms.OpenFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxBusStation)).BeginInit();
             this.groupBoxStation.SuspendLayout();
+            this.menuStripBus.SuspendLayout();
             this.SuspendLayout();
             // 
             // pictureBoxBusStation
             // 
             this.pictureBoxBusStation.Dock = System.Windows.Forms.DockStyle.Left;
-            this.pictureBoxBusStation.Location = new System.Drawing.Point(0, 0);
+            this.pictureBoxBusStation.Location = new System.Drawing.Point(0, 24);
             this.pictureBoxBusStation.Name = "pictureBoxBusStation";
-            this.pictureBoxBusStation.Size = new System.Drawing.Size(630, 450);
+            this.pictureBoxBusStation.Size = new System.Drawing.Size(630, 426);
             this.pictureBoxBusStation.TabIndex = 0;
             this.pictureBoxBusStation.TabStop = false;
             // 
@@ -145,6 +152,48 @@
             this.buttonAddBus.UseVisualStyleBackColor = true;
             this.buttonAddBus.Click += new System.EventHandler(this.buttonSetBus_Click);
             // 
+            // menuStripBus
+            // 
+            this.menuStripBus.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.файлToolStripMenuItem});
+            this.menuStripBus.Location = new System.Drawing.Point(0, 0);
+            this.menuStripBus.Name = "menuStripBus";
+            this.menuStripBus.Size = new System.Drawing.Size(800, 24);
+            this.menuStripBus.TabIndex = 11;
+            this.menuStripBus.Text = "Файл";
+            // 
+            // файлToolStripMenuItem
+            // 
+            this.файлToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.сохранитьToolStripMenuItem,
+            this.загрузитьToolStripMenuItem});
+            this.файлToolStripMenuItem.Name = "файлToolStripMenuItem";
+            this.файлToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
+            this.файлToolStripMenuItem.Text = "Файл";
+            // 
+            // сохранитьToolStripMenuItem
+            // 
+            this.сохранитьToolStripMenuItem.Name = "сохранитьToolStripMenuItem";
+            this.сохранитьToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.сохранитьToolStripMenuItem.Text = "Сохранить";
+            this.сохранитьToolStripMenuItem.Click += new System.EventHandler(this.сохранитьToolStripMenuItem_Click);
+            // 
+            // загрузитьToolStripMenuItem
+            // 
+            this.загрузитьToolStripMenuItem.Name = "загрузитьToolStripMenuItem";
+            this.загрузитьToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.загрузитьToolStripMenuItem.Text = "Загрузить";
+            this.загрузитьToolStripMenuItem.Click += new System.EventHandler(this.загрузитьToolStripMenuItem_Click);
+            // 
+            // saveFileDialogBus
+            // 
+            this.saveFileDialogBus.Filter = "txt file | *.txt";
+            // 
+            // openFileDialogBus
+            // 
+            this.openFileDialogBus.FileName = "openFileDialogBus";
+            this.openFileDialogBus.Filter = "txt file | *.txt";
+            // 
             // FormBusStation
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -158,11 +207,15 @@
             this.Controls.Add(this.labelStation);
             this.Controls.Add(this.groupBoxStation);
             this.Controls.Add(this.pictureBoxBusStation);
+            this.Controls.Add(this.menuStripBus);
+            this.MainMenuStrip = this.menuStripBus;
             this.Name = "FormBusStation";
             this.Text = "Автовокзал";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxBusStation)).EndInit();
             this.groupBoxStation.ResumeLayout(false);
             this.groupBoxStation.PerformLayout();
+            this.menuStripBus.ResumeLayout(false);
+            this.menuStripBus.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -181,5 +234,11 @@
         private System.Windows.Forms.Button buttonDeleteBusStation;
         private System.Windows.Forms.TextBox textBoxNewLevelName;
         private System.Windows.Forms.Button buttonAddBus;
+        private System.Windows.Forms.MenuStrip menuStripBus;
+        private System.Windows.Forms.ToolStripMenuItem файлToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem сохранитьToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem загрузитьToolStripMenuItem;
+        private System.Windows.Forms.SaveFileDialog saveFileDialogBus;
+        private System.Windows.Forms.OpenFileDialog openFileDialogBus;
     }
 }
