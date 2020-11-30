@@ -132,6 +132,7 @@ pictureBoxBusStation.Height);
                     else
                     {
                         MessageBox.Show("Автобус не удалось поставить");
+                        logger.Warn($"Автобус не удалось поставить");
                     }
                     Draw();
                 }
@@ -139,11 +140,13 @@ pictureBoxBusStation.Height);
                 {
                     MessageBox.Show(ex.Message, "Переполнение", MessageBoxButtons.OK,
                    MessageBoxIcon.Error);
+                    logger.Warn($"{ex.Message} Переполнение");
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message, "Неизвестная ошибка",
                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    logger.Warn($"{ex.Message} Неизвестная ошибка");
                 }
             }
         }
@@ -175,11 +178,13 @@ pictureBoxBusStation.Height);
                 {
                     MessageBox.Show(ex.Message, "Не найдено", MessageBoxButtons.OK,
                    MessageBoxIcon.Error);
+                    logger.Warn($"{ex.Message} Не найдено");
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message, "Неизвестная ошибка",
                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    logger.Warn($"{ex.Message} Неизвестная ошибка");
                 }
             }
 
@@ -209,33 +214,36 @@ pictureBoxBusStation.Height);
                 {
                     MessageBox.Show(ex.Message, "Неизвестная ошибка при сохранении",
                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    logger.Warn($"{ex.Message} Неизвестная ошибка при сохранении");
                 }
 
             }
         }
-            private void загрузитьToolStripMenuItem_Click(object sender, EventArgs e)
-            {
-                if (openFileDialogBus.ShowDialog() == DialogResult.OK)
-                {
-                    try
-                    {
-                        stationCollection.LoadData(openFileDialogBus.FileName);
-                        MessageBox.Show("Загрузили", "Результат", MessageBoxButtons.OK,
-                        MessageBoxIcon.Information);
-                        logger.Info("Загружено из файла " + openFileDialogBus.FileName);
-                        ReloadLevels();
-                        Draw();
-                    }
-                    catch (BusStationOccupiedPlaceException ex)
-                    {
-                        MessageBox.Show(ex.Message, "Занятое место", MessageBoxButtons.OK,
-                        MessageBoxIcon.Error);
-                    }
-                     catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message, "Неизвестная ошибка при сохранении",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
+        private void загрузитьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+           if (openFileDialogBus.ShowDialog() == DialogResult.OK)
+           {
+              try
+              {
+                stationCollection.LoadData(openFileDialogBus.FileName);
+                MessageBox.Show("Загрузили", "Результат", MessageBoxButtons.OK,
+                MessageBoxIcon.Information);
+                logger.Info("Загружено из файла " + openFileDialogBus.FileName);
+                ReloadLevels();
+                Draw();
+              }
+              catch (BusStationOccupiedPlaceException ex)
+              {
+                MessageBox.Show(ex.Message, "Занятое место", MessageBoxButtons.OK,
+                MessageBoxIcon.Error);
+                logger.Warn($"{ex.Message} Занятое место");
+              }
+              catch (Exception ex)
+              {
+                MessageBox.Show(ex.Message, "Неизвестная ошибка при сохранении",
+                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                logger.Warn($"{ex.Message} Неизвестная ошибка при загрузке");
+              }
             }
         }
     }
