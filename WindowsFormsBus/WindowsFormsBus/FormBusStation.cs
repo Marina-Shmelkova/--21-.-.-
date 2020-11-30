@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using NLog;
 
 namespace WindowsFormsBus
 {
@@ -16,12 +17,16 @@ namespace WindowsFormsBus
         /// Объект от класса-коллекции парковок
         /// </summary>
         private readonly BusStationCollection stationCollection;
+        /// <summary>
+        /// Логгер
+        /// </summary>
+        private readonly Logger logger;
         public FormBusStation()
         {
             InitializeComponent();
             stationCollection = new BusStationCollection(pictureBoxBusStation.Width,
 pictureBoxBusStation.Height);
-
+            logger = LogManager.GetCurrentClassLogger();
         }
         /// <summary>
         /// Заполнение listBoxLevels
@@ -73,7 +78,8 @@ pictureBoxBusStation.Height);
                MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-        stationCollection.AddBusStation(textBoxNewLevelName.Text);
+            logger.Info($"Добавили парковку {textBoxNewLevelName.Text}");
+            stationCollection.AddBusStation(textBoxNewLevelName.Text);
             ReloadLevels();
         }
         /// <summary>
@@ -89,6 +95,7 @@ pictureBoxBusStation.Height);
                 {
 
                     {
+                        logger.Info($"Удалили парковку{ listBoxBusStation.SelectedItem.ToString()}");
                         stationCollection.DelBusStation(listBoxBusStation.SelectedItem.ToString());
                         ReloadLevels();
                         Draw();
@@ -115,13 +122,28 @@ pictureBoxBusStation.Height);
         {
             if (bus != null && listBoxBusStation.SelectedIndex > -1)
             {
-                if ((stationCollection[listBoxBusStation.SelectedItem.ToString()]) + bus)
+                try
                 {
+                    if ((stationCollection[listBoxBusStation.SelectedItem.ToString()]) + bus)
+                    {
+                        Draw();
+                        logger.Info($"Добавлен автобус {bus}");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Автобус не удалось поставить");
+                    }
                     Draw();
                 }
-                else
+                catch (BusStationOverflowException ex)
                 {
-                    MessageBox.Show("Автобус не удалось поставить");
+                    MessageBox.Show(ex.Message, "Переполнение", MessageBoxButtons.OK,
+                   MessageBoxIcon.Error);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Неизвестная ошибка",
+                   MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
@@ -133,8 +155,10 @@ pictureBoxBusStation.Height);
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void buttonTakeBus_Click(object sender, EventArgs e)
+        {
+            if (listBoxBusStation.SelectedIndex > -1 && maskedTextBoxBus.Text != "")
             {
-                if (listBoxBusStation.SelectedIndex > -1 && maskedTextBoxBus.Text != "")
+                try
                 {
                     var bus = stationCollection[listBoxBusStation.SelectedItem.ToString()] -
                    Convert.ToInt32(maskedTextBoxBus.Text);
@@ -143,16 +167,30 @@ pictureBoxBusStation.Height);
                         FormBus form = new FormBus();
                         form.SetBus(bus);
                         form.ShowDialog();
+                        logger.Info($"Изъят автомобиль {bus} с места{ maskedTextBoxBus.Text} ");
+                        Draw();
                     }
-                    Draw();
+                }
+                catch (BusStationNotFoundException ex)
+                {
+                    MessageBox.Show(ex.Message, "Не найдено", MessageBoxButtons.OK,
+                   MessageBoxIcon.Error);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Неизвестная ошибка",
+                   MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-            /// Метод обработки выбора элемента на listBoxLevels
-            /// </summary>
-            /// <param name="sender"></param>
-            /// <param name="e"></param>
-            private void listBoxBusStation_SelectedIndexChanged(object sender, EventArgs e)
+
+        }
+        /// Метод обработки выбора элемента на listBoxLevels
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void listBoxBusStation_SelectedIndexChanged(object sender, EventArgs e)
             {
+            logger.Info($"Перешли на парковку{ listBoxBusStation.SelectedItem.ToString()}");
                 Draw();
             }
 
@@ -160,35 +198,44 @@ pictureBoxBusStation.Height);
         {
             if (saveFileDialogBus.ShowDialog() == DialogResult.OK)
             {
-                if (stationCollection.SaveData(saveFileDialogBus.FileName))
+                try
                 {
+                    stationCollection.SaveData(saveFileDialogBus.FileName);
                     MessageBox.Show("Сохранение прошло успешно", "Результат",
-                   MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    logger.Info("Сохранено в файл " + saveFileDialogBus.FileName);
                 }
-                else
+                catch (Exception ex)
                 {
-                    MessageBox.Show("Не сохранилось", "Результат",
+                    MessageBox.Show(ex.Message, "Неизвестная ошибка при сохранении",
                    MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+
             }
         }
-
-        private void загрузитьToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (openFileDialogBus.ShowDialog() == DialogResult.OK)
+            private void загрузитьToolStripMenuItem_Click(object sender, EventArgs e)
             {
-                if (stationCollection.LoadData(openFileDialogBus.FileName))
+                if (openFileDialogBus.ShowDialog() == DialogResult.OK)
                 {
-                    MessageBox.Show("Загрузили", "Результат", MessageBoxButtons.OK,
-                   MessageBoxIcon.Information);
-                    ReloadLevels();
-                    Draw();
-                }
-                else
-                {
-                    MessageBox.Show("Не загрузили", "Результат", MessageBoxButtons.OK,
-                   MessageBoxIcon.Error);
-                }
+                    try
+                    {
+                        stationCollection.LoadData(openFileDialogBus.FileName);
+                        MessageBox.Show("Загрузили", "Результат", MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+                        logger.Info("Загружено из файла " + openFileDialogBus.FileName);
+                        ReloadLevels();
+                        Draw();
+                    }
+                    catch (BusStationOccupiedPlaceException ex)
+                    {
+                        MessageBox.Show(ex.Message, "Занятое место", MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+                    }
+                     catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message, "Неизвестная ошибка при сохранении",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
             }
         }
     }
