@@ -134,11 +134,11 @@ namespace WindowsFormsBus
         /// </summary>
         /// <param name="filename"></param>
         /// <returns></returns>
-        public bool LoadData(string filename)
+        public void LoadData(string filename)
         {
             if (!File.Exists(filename))
             {
-                return false;
+                throw new FileNotFoundException();
             }
             using (StreamReader sr = new StreamReader(filename))
             {
@@ -148,39 +148,41 @@ namespace WindowsFormsBus
                 if (line.Contains("BusStationCollection"))
                 {
                     stationStages.Clear();
-                    line = sr.ReadLine();
-                    while (line != null)
-                    {
-                        if (line.Contains("BusStation"))
-                        {
-                            key = line.Split(separator)[1];
-                            stationStages.Add(key, new BusStation<Vehicle>(pictureWidth, pictureHeight));
-                            line = sr.ReadLine();
-                            continue;
-                        }
-                        if (string.IsNullOrEmpty(line))
-                        {
-                            line = sr.ReadLine();
-                            continue;
-                        }
-                        if (line.Split(separator)[0] == "Bus")
-                        {
-                            bus = new Bus(line.Split(separator)[1]);
-                        }
-                        else if (line.Split(separator)[0] == "Trolleybus")
-                        {
-                            bus = new Trolleybus(line.Split(separator)[1]);
-                        }
-                        var result = stationStages[key] + bus;
-                        if (!result)
-                        {
-                            return false;
-                        }
-                        line = sr.ReadLine();
-                    }
-                    return true;
                 }
-                return false;
+                else
+                {
+                    throw new ErrorFormatException();
+                }
+                line = sr.ReadLine();
+                while (line != null)
+                {
+                    if (line.Contains("BusStation"))
+                    {
+                        key = line.Split(separator)[1];
+                        stationStages.Add(key, new BusStation<Vehicle>(pictureWidth, pictureHeight));
+                        line = sr.ReadLine();
+                        continue;
+                    }
+                    if (string.IsNullOrEmpty(line))
+                    {
+                        line = sr.ReadLine();
+                        continue;
+                    }
+                    if (line.Split(separator)[0] == "Bus")
+                    {
+                        bus = new Bus(line.Split(separator)[1]);
+                    }
+                    else if (line.Split(separator)[0] == "Trolleybus")
+                    {
+                        bus = new Trolleybus(line.Split(separator)[1]);
+                    }
+                    var result = stationStages[key] + bus;
+                    if (!result)
+                    {
+                        throw new NullReferenceException();
+                    }
+                    line = sr.ReadLine();
+                }
             }
         }
     }
