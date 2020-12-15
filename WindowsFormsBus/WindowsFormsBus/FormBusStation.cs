@@ -132,7 +132,7 @@ pictureBoxBusStation.Height);
                     else
                     {
                         MessageBox.Show("Автобус не удалось поставить");
-                        logger.Warn($"Автобус не удалось поставить");
+                        //logger.Warn($"Автобус не удалось поставить");
                     }
                     Draw();
                 }
@@ -141,6 +141,12 @@ pictureBoxBusStation.Height);
                     MessageBox.Show(ex.Message, "Переполнение", MessageBoxButtons.OK,
                    MessageBoxIcon.Error);
                     logger.Warn($"{ex.Message} Переполнение");
+                }
+                catch (BusStationAlreadyHaveException ex)
+                {
+                    MessageBox.Show(ex.Message, "Дублирование", MessageBoxButtons.OK,
+                   MessageBoxIcon.Error);
+                   // logger.Warn($"{ex.Message} Дублирование");
                 }
                 catch (Exception ex)
                 {
@@ -246,6 +252,21 @@ pictureBoxBusStation.Height);
               }
             }
         }
+        /// <summary>
+        /// Обработка нажатия кнопки "Сортировка"
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void buttonSort_Click(object sender, EventArgs e)
+        {
+            if (listBoxBusStation.SelectedIndex > -1)
+            {
+                stationCollection[listBoxBusStation.SelectedItem.ToString()].Sort();
+                Draw();
+                logger.Info("Сортировка уровней");
+            }
+        }
+
     }
 }
 

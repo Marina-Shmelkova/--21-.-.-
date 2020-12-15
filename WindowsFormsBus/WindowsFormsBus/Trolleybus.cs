@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Drawing;
 namespace WindowsFormsBus
 {
-    public class Trolleybus : Bus
+    public class Trolleybus : Bus, IEquatable<Trolleybus>
     {
         public Color DopColor { private set; get; }
         /// Признак наличия штангового токоприемника
@@ -117,6 +117,71 @@ bool rodPantograph, bool doors, bool strip) :
         {
             return
            $"{base.ToString()}{separator}{DopColor.Name}{separator}{RodPantograph}{separator}{Doors}{separator}{Strip}";
+        }
+        /// <summary>
+        /// Метод интерфейса IEquatable для класса дочернего Trolleybus
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        public bool Equals(Trolleybus other)
+        {
+            if (other == null)
+            {
+                return false;
+            }
+            if (GetType().Name != other.GetType().Name)
+            {
+                return false;
+            }
+            if (MaxSpeed != other.MaxSpeed)
+            {
+                return false;
+            }
+            if (Weight != other.Weight)
+            {
+                return false;
+            }
+            if (MainColor != other.MainColor)
+            {
+                return false;
+            }
+            if (DopColor != other.DopColor)
+            {
+                return false;
+            }
+            if (RodPantograph != other.RodPantograph)
+            {
+                return false;
+            }
+            if (Doors != other.Doors)
+            {
+                return false;
+            }
+            if (Strip != other.Strip)
+            {
+                return false;
+            }
+            return true;
+        }
+        /// <summary>
+        /// Перегрузка метода от object
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public override bool Equals(Object obj)
+        {
+            if (obj == null)
+            {
+                return false;
+            }
+            if (!(obj is Trolleybus busObj))
+            {
+                return false;
+            }
+            else
+            {
+                return Equals(busObj);
+            }
         }
     }
 }
