@@ -97,7 +97,7 @@ namespace WindowsFormsBus
         /// </summary>
         /// <param name="filename">Путь и имя файла</param>
         /// <returns></returns>
-        public bool SaveData(string filename)
+        public void SaveData(string filename)
         {
             if (File.Exists(filename))
             {
@@ -108,9 +108,8 @@ namespace WindowsFormsBus
                 sw.WriteLine($"BusStationCollection");
                 foreach (var level in stationStages)
                 {
-                    sw.WriteLine($"BusStation{separator}{level.Key}");
-                    ITransport bus = null;
-                    for (int i = 0; (bus = level.Value.GetNext(i)) != null; i++)
+                    sw.WriteLine($"Station{separator}{level.Key}");
+                    foreach (ITransport bus in level.Value)
                     {
                         if (bus != null)
                         {
@@ -127,7 +126,6 @@ namespace WindowsFormsBus
                     }
                 }
             }
-            return true;
         }
         /// <summary>
         /// Загрузка информации по автобусам на парковках из файла
@@ -140,50 +138,52 @@ namespace WindowsFormsBus
             {
                 throw new FileNotFoundException();
             }
+
             using (StreamReader sr = new StreamReader(filename))
             {
                 string line = sr.ReadLine();
-                string key = string.Empty;
-                Vehicle bus = null;
                 if (line.Contains("BusStationCollection"))
                 {
+                    //очищаем записи
                     stationStages.Clear();
                 }
+
                 else
                 {
-                    throw new ErrorFormatException();
+                    //если нет такой записи, то это не те данные
+                    throw new FormatException();
                 }
+
                 line = sr.ReadLine();
-                while (line != null)
+                Vehicle bus = null;
+                string key = string.Empty;
+                while (line != null && line.Contains("Station"))
                 {
-                    if (line.Contains("BusStation"))
-                    {
-                        key = line.Split(separator)[1];
-                        stationStages.Add(key, new BusStation<Vehicle>(pictureWidth, pictureHeight));
-                        line = sr.ReadLine();
-                        continue;
-                    }
-                    if (string.IsNullOrEmpty(line))
-                    {
-                        line = sr.ReadLine();
-                        continue;
-                    }
-                    if (line.Split(separator)[0] == "Bus")
-                    {
-                        bus = new Bus(line.Split(separator)[1]);
-                    }
-                    else if (line.Split(separator)[0] == "Trolleybus")
-                    {
-                        bus = new Trolleybus(line.Split(separator)[1]);
-                    }
-                    var result = stationStages[key] + bus;
-                    if (!result)
-                    {
-                        throw new NullReferenceException();
-                    }
+                    key = line.Split(separator)[1];
+                    stationStages.Add(key, new BusStation<Vehicle>(pictureWidth, pictureHeight));
                     line = sr.ReadLine();
+                    while (line != null && (line.Contains("Bus") || line.Contains("Trolleybus")))
+                    {
+                        if (line.Split(separator)[0] == "Bus")
+                        {
+                           bus = new Bus(line.Split(separator)[1]);
+                        }
+
+                        else if (line.Split(separator)[0] == "Trolleybus")
+                        {
+                            bus = new Trolleybus(line.Split(separator)[1]);
+                        }
+
+                        var result = stationStages[key] + bus;
+                        if (!result)
+                        {
+                            throw new NullReferenceException();
+                        }
+
+                        line = sr.ReadLine();
+                    }
                 }
             }
-        }
+        }   
     }
 }
